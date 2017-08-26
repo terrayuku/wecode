@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import fire from '../config';
 
-class Signup extends Component {
+
+class Profile extends Component {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
-			firstName: "",
-			lastName: "",
-			email: "",
-			password: "",
-			phone: "",
-			confirmPassword: "",
-			gender: ["Male", "Female", "Other"],
-			error: ''
+			firstName: "Terra",
+			lastName: "Byte",
+			email: "terra@byte.com",
+			password: "1234567"
 		};
 	}
 
@@ -26,18 +24,6 @@ class Signup extends Component {
 	handleEmail(e) {
 		this.setState({ email: e.target.value })
 	}
-	handlePassword(e) {
-		this.setState({ password: e.target.value })
-	}
-	handleConfirm(e) {
-		this.setState({ confirmPassword: e.target.value })
-	}
-	handlePhone(e) {
-		this.setState({ phone: e.target.value })
-	}
-	handleGender(e) {
-		this.setState({ gender: e.target.value })
-	}
 
 	handleSubmit(e) {
 		e.preventDefault();
@@ -49,8 +35,7 @@ class Signup extends Component {
 			lastName: this.state.lastName,
 			email: this.state.email, 
 			password: this.state.password,
-			gender: this.state.gender,
-			phone: this.state.phone
+			gender: this.state.gender
 		};
 
 		let newUserRef = fire.database().ref("users");
@@ -78,42 +63,49 @@ class Signup extends Component {
 
 	render() {
 		return (
-			<div>
-			 <div className="container">
+			    
+			          <div className="container">
+			            <div className="row">
+			              <div className="col-lg-8 mx-auto">
+			                <div className="modal-body">
+			                  <h2>{this.state.firstName} {this.state.lastName}</h2>
+			                  <p className="item-intro text-muted"></p>
+			                  <img className="mx-auto rounded-circle" 
+			                  src="img/team/1.jpg" alt="" />
+			                  <p>User brief description </p>
+			                  <div className="container">
 		        <div className="row">
 		          <div className="col-lg-12 text-center">
 		          <div className="form-group">
-				<h2 className="section-heading">SIGN UP HERE</h2>
 			        <form onSubmit={this.handleSubmit.bind(this)} >
 
-			            <input type="text" placeholder="Firstname" className="form-control"
+			            <input type="text" value={this.state.firstName} className="form-control"
 			            onChange={this.handleFirstName.bind(this)} required /><br />
 
-			            <input type="text" placeholder="Lastname" className="form-control" 
+			            <input type="text" value={this.state.lastName} className="form-control" 
 			            onChange={this.handleLastName.bind(this)} required /><br />
 
-			            <input type="email" placeholder="Email" className="form-control" 
+			            <input type="email" value={this.state.email} className="form-control" 
 			            onChange={this.handleEmail.bind(this)} required /><br />
 
-			            <input type="number" placeholder="Phone" className="form-control" 
-			            onChange={this.handlePhone.bind(this)} required /><br />
-
-			            <input type="password" placeholder="Password" className="form-control" 
-			            onChange={this.handlePassword.bind(this)} required /><br />
-
-			            <input type="password" placeholder="Confirm password" className="form-control" 
-			            onChange={this.handleConfirm.bind(this)} required /> <br />
+			            
 			           	 
-			        <br /><input className="btn btn-primary" type="Submit" value="Signup" />
+			        <br /><input className="btn btn-primary" type="Submit" value="Update" />
 			            
 			        </form>
 			        </div>
 			</div>
 			</div>
 			</div>
-			</div>
+			                  <button className="btn btn-primary" data-dismiss="modal" type="button">
+			                    <i className="fa fa-times"></i>
+			                    Close Profile</button>
+			                </div>
+			              </div>
+			            </div>
+			          </div>
 		);
 	}
 }
 
-export default Signup;
+export default Profile;

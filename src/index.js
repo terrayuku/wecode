@@ -4,6 +4,8 @@ import App from './App';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Contact from './components/Contact';
+import Profile from './components/Profile';
+import AddGroup from './components/AddGroup';
 import './index.css';
 
 // import {Router, Route} from 'react-router';
@@ -16,6 +18,8 @@ ReactDOM.render(
   	<Route path='/signup' component={Signup} />
   	<Route path='/login' component={Login} />
   	<Route path='/contact' component={Contact} />
+  	<Route path='/profile' component={Profile} />
+  	<Route path='/addgroup' component={AddGroup} />
   </Switch>
    </BrowserRouter>,
   document.getElementById('root')
