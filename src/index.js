@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Contact from './components/Contact';
 import Profile from './components/Profile';
 import AddGroup from './components/AddGroup';
+import Planning from './components/Planning';
 import './index.css';
 
 // import {Router, Route} from 'react-router';
@@ -20,6 +21,7 @@ ReactDOM.render(
   	<Route path='/contact' component={Contact} />
   	<Route path='/profile' component={Profile} />
   	<Route path='/addgroup' component={AddGroup} />
+  	<Route path='/planning' component={Planning} />
   </Switch>
    </BrowserRouter>,
   document.getElementById('root')

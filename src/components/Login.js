@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import fire from '../config';
-import Nav from './Nav';
 
 import {Link} from 'react-router-dom';
 
@@ -80,7 +79,7 @@ class Login extends Component {
 		        			<Link to='/profile'>Profile</Link>
 		        		</div>
 		        		<div className="col-lg-6">
-		        			<a href="/planning:{this.state.result}">Planing</a>
+		        			<a href="/planning">Planing</a>
 		        		</div>
 		        	</div>
 		        	<div className="row">
