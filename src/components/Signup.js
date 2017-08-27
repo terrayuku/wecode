@@ -6,23 +6,14 @@ class Signup extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			firstName: "",
-			lastName: "",
 			email: "",
 			password: "",
-			phone: "",
 			confirmPassword: "",
-			gender: ["Male", "Female", "Other"],
 			error: ''
 		};
 	}
 
-	handleFirstName(e) {
-		this.setState({ firstName: e.target.value})
-	}
-	handleLastName(e) {
-		this.setState({ lastName: e.target.value })
-	}
+	
 	handleEmail(e) {
 		this.setState({ email: e.target.value })
 	}
@@ -32,48 +23,22 @@ class Signup extends Component {
 	handleConfirm(e) {
 		this.setState({ confirmPassword: e.target.value })
 	}
-	handlePhone(e) {
-		this.setState({ phone: e.target.value })
-	}
-	handleGender(e) {
-		this.setState({ gender: e.target.value })
-	}
-
 	handleSubmit(e) {
 		e.preventDefault();
-		console.log(this.state.firstName, this.state.lastName,
-			this.state.email, this.state.password, this.state.gender);
+		console.log(this.state.email, this.state.password,);
 
-		let user = {
-			firstName: this.state.firstName, 
-			lastName: this.state.lastName,
-			email: this.state.email, 
-			password: this.state.password,
-			gender: this.state.gender,
-			phone: this.state.phone
-		};
+		fire.auth().createUserWithEmailAndPassword(this.state.email, 
+			this.state.password).then(result => {
 
-		let newUserRef = fire.database().ref("users");
+				console.log(result);
+				this.setState({ result: result });
 
-		newUserRef.push(user).then(result => {
+			}).catch(error => {
 
-			console.log("User Added");
-			fire.auth().createUserWithEmailAndPassword(this.state.email, 
-				this.state.password).then(result => {
+				console.log("Email Error", error);
 
-					console.log(result);
-					this.setState({ result: result });
+			});
 
-				}).catch(error => {
-
-					console.log("Email Error", error);
-
-				});
-			
-		}).catch( error => {
-			console.log("User Error", error);
-			this.setState({error: error});
-		});
 	}
 
 	render() {
@@ -86,17 +51,8 @@ class Signup extends Component {
 				<h2 className="section-heading">SIGN UP HERE</h2>
 			        <form onSubmit={this.handleSubmit.bind(this)} >
 
-			            <input type="text" placeholder="Firstname" className="form-control"
-			            onChange={this.handleFirstName.bind(this)} required /><br />
-
-			            <input type="text" placeholder="Lastname" className="form-control" 
-			            onChange={this.handleLastName.bind(this)} required /><br />
-
 			            <input type="email" placeholder="Email" className="form-control" 
 			            onChange={this.handleEmail.bind(this)} required /><br />
-
-			            <input type="number" placeholder="Phone" className="form-control" 
-			            onChange={this.handlePhone.bind(this)} required /><br />
 
 			            <input type="password" placeholder="Password" className="form-control" 
 			            onChange={this.handlePassword.bind(this)} required /><br />

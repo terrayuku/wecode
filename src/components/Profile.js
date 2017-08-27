@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
 import fire from '../config';
 
-
 class Profile extends Component {
 
 	constructor(props) {
 		super(props);
-
+		console.log(fire.auth().currentUser);
 		this.state = {
-			firstName: "Terra",
-			lastName: "Byte",
-			email: "terra@byte.com",
-			password: "1234567"
+			firstName: "",
+			lastName: "",
+			email: fire.auth().currentUser.email,
+			youthgroup: "",
+			phone: "",
+			motivation: "",
+			role: "",
+			error: ''
 		};
 	}
 
@@ -24,71 +27,95 @@ class Profile extends Component {
 	handleEmail(e) {
 		this.setState({ email: e.target.value })
 	}
+	handleYouthGroup(e) {
+		this.setState({ youthgroup: e.target.value });
+	}
+	handlePhone(e) {
+		this.setState({ phone: e.target.value })
+	}
+	handleMotivation(e) {
+		this.setState({ motivation: e.target.value })
+	}
+	handleRole(e) {
+		this.setState({ role: e.target.value })
+	}
 
 	handleSubmit(e) {
 		e.preventDefault();
-		console.log(this.state.firstName, this.state.lastName,
-			this.state.email, this.state.password, this.state.gender);
-
+		console.log(this.state.firstName, this.state.lastName, this.state.phone,
+			this.state.email, this.state.role, this.state.youthgroup, this.state.motivation);
 		let user = {
-			firstName: this.state.firstName, 
-			lastName: this.state.lastName,
-			email: this.state.email, 
-			password: this.state.password,
-			gender: this.state.gender
-		};
+			'phoneNumber': this.state.phone,
+			'firstName': this.state.firstName,
+			'lastName': this.state.lastName,
+			'youthgroup': this.state.youthgroup,
+			'role': this.state.role,
+			'motivation': this.state.motivation,
+			'email': this.state.email
+		}
+		fire.database().ref('users').push(user);
 
-		let newUserRef = fire.database().ref("users");
-
-		newUserRef.push(user).then(result => {
-
-			console.log("User Added");
-			fire.auth().createUserWithEmailAndPassword(this.state.email, 
-				this.state.password).then(result => {
-
-					console.log(result);
-					this.setState({ result: result });
-
-				}).catch(error => {
-
-					console.log("Email Error", error);
-
-				});
-			
-		}).catch( error => {
-			console.log("User Error", error);
-			this.setState({error: error});
+		fire.auth().currentUser.updateProfile({
+			displayName: this.state.firstName + " " + this.state.lastName,
+			phoneNumber: this.state.phone,
+			profile: user
+		}).then(result => {
+			this.setState({ isLogedIn: true });
 		});
 	}
 
 	render() {
 		return (
-			    
-			          <div className="container">
-			            <div className="row">
-			              <div className="col-lg-8 mx-auto">
-			                <div className="modal-body">
-			                  <h2>{this.state.firstName} {this.state.lastName}</h2>
-			                  <p className="item-intro text-muted"></p>
-			                  <img className="mx-auto rounded-circle" 
-			                  src="img/team/1.jpg" alt="" />
-			                  <p>User brief description </p>
-			                  <div className="container">
+			<div>
+			 <div className="container">
 		        <div className="row">
-		          <div className="col-lg-12 text-center">
+		        <div className="col-lg-4">
+		            <div className="team-member">
+		              <img className="mx-auto rounded-circle" 
+		              src="../img/team/1.jpg" alt="" />
+		              <h4>{this.state.firstName}</h4><h5>{this.state.email}</h5>
+		              <p className="text-muted">{this.state.role}</p>
+		              <ul className="list-inline social-buttons">
+		                <li className="list-inline-item">
+		                  <a href="#">
+		                    <i className="fa fa-twitter"></i>
+		                  </a>
+		                </li>
+		                <li className="list-inline-item">
+		                  <a href="#">
+		                    <i className="fa fa-facebook"></i>
+		                  </a>
+		                </li>
+		                <li className="list-inline-item">
+		                  <a href="#">
+		                    <i className="fa fa-linkedin"></i>
+		                  </a>
+		                </li>
+		              </ul>
+		            </div>
+		            </div>
+		          <div className="col-lg-8 text-center">
 		          <div className="form-group">
+				<h2 className="section-heading">Update Profile</h2>
 			        <form onSubmit={this.handleSubmit.bind(this)} >
 
-			            <input type="text" value={this.state.firstName} className="form-control"
-			            onChange={this.handleFirstName.bind(this)} required /><br />
+			            <input type="text" placeholder="Firstname" className="form-control"
+			            onChange={this.handleFirstName.bind(this)}  /><br />
 
-			            <input type="text" value={this.state.lastName} className="form-control" 
-			            onChange={this.handleLastName.bind(this)} required /><br />
+			            <input type="text" placeholder="Lastname" className="form-control" 
+			            onChange={this.handleLastName.bind(this)}  /><br />
 
-			            <input type="email" value={this.state.email} className="form-control" 
-			            onChange={this.handleEmail.bind(this)} required /><br />
+			            <input type="number" placeholder="Phone" className="form-control" 
+			            onChange={this.handlePhone.bind(this)}  /><br />
 
-			            
+			            <input type="text" placeholder="Role" className="form-control" 
+			            onChange={this.handleRole.bind(this)}  /><br />
+
+			            <input type="text" placeholder="Youth Group" className="form-control" 
+			            onChange={this.handleYouthGroup.bind(this)}  /><br />
+
+			            <input type="text" placeholder="Your Passion" className="form-control" 
+			            onChange={this.handleMotivation.bind(this)}  /><br />
 			           	 
 			        <br /><input className="btn btn-primary" type="Submit" value="Update" />
 			            
@@ -97,13 +124,7 @@ class Profile extends Component {
 			</div>
 			</div>
 			</div>
-			                  <button className="btn btn-primary" data-dismiss="modal" type="button">
-			                    <i className="fa fa-times"></i>
-			                    Close Profile</button>
-			                </div>
-			              </div>
-			            </div>
-			          </div>
+			</div>
 		);
 	}
 }

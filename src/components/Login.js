@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import fire from '../config';
+import Nav from './Nav';
+
+import {Link} from 'react-router-dom';
 
 class Login extends Component {
 
@@ -10,7 +13,8 @@ class Login extends Component {
 			email: '',
 			password: '',
 			error: '',
-			isLogedIn: false
+			result: '',
+			isLogedIn: fire.auth().currentUser || false
 		};
 	}
 
@@ -27,7 +31,8 @@ class Login extends Component {
 		fire.auth().signInWithEmailAndPassword(this.state.email, 
 			this.state.password).then(result => {
 				console.log("User Logedin", result);
-				this.setState({ isLogedIn: true });
+				this.setState({ isLogedIn: true, result: result });
+				// console.log(result);
 			}).catch(error => {
 				this.setState({ isLogedIn: false });
 				console.log("Error Login", error);
@@ -68,7 +73,26 @@ class Login extends Component {
 
 			);
 		} else {
-			return (<p>Logedin</p>);
+			return (
+				<div className="container">
+					<div className="row">
+		        		<div className="col-lg-6">
+		        			<Link to='/profile'>Profile</Link>
+		        		</div>
+		        		<div className="col-lg-6">
+		        			<a href="/planning:{this.state.result}">Planing</a>
+		        		</div>
+		        	</div>
+		        	<div className="row">
+		        		<div className="col-lg-6">
+		        			<a href="/stories:{this.state.result}">Stories</a>
+		        		</div>
+		        		<div className="col-lg-6">
+		        			<a href="/speakout:{this.state.result}">SpeakOut</a>
+		        		</div>
+		        	</div>
+				</div>
+			);
 		}
 	}
 }
