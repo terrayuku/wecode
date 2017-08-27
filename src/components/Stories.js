@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
+import fire from '../config';
 
 class Stories extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			posts: []
+		}
+	}
+	componentWillMount() {
+		let usersPostsRef = fire.database().ref('posts');
+		usersPostsRef.on('child_added', snap => {
+			let post = { post: snap.val(), id: snap.key};
+			this.setState({ posts: [post].concat(this.state.posts) });
+		})
+	}
 	render() {
+		console.log(this.state.posts)
 		return (
 			<section id="stories">
 		      <div className="container">
@@ -12,30 +28,44 @@ class Stories extends Component {
 		          </div>
 		        </div>
 		        <div className="row text-center">
-		          <div className="col-md-4">
-		            <span className="fa-stack fa-4x">
-		              <i className="fa fa-circle fa-stack-2x text-primary"></i>
-		              <i className="fa fa-book fa-stack-1x fa-inverse"></i>
-		            </span>
-		            <h4 className="service-heading">Education</h4>
-		            <p className="text-muted">Education is the key. Help each other grow and success.</p>
-		          </div>
-		          <div className="col-md-4">
-		            <span className="fa-stack fa-4x">
-		              <i className="fa fa-circle fa-stack-2x text-primary"></i>
-		              <i className="fa fa-money fa-stack-1x fa-inverse"></i>
-		            </span>
-		            <h4 className="service-heading">Un-Employment</h4>
-		            <p className="text-muted">The rate of un-employment is high, join us as we unpack methods to assist bring down the un employment rate.</p>
-		          </div>
-		          <div className="col-md-4">
-		            <span className="fa-stack fa-4x">
-		              <i className="fa fa-circle fa-stack-2x text-primary"></i>
-		              <i className="fa fa-child fa-stack-1x fa-inverse"></i>
-		            </span>
-		            <h4 className="service-heading">Abuse</h4>
-		            <p className="text-muted">1 in 5 South African Citizen is being abused, being it a child, woman, or even man. Help eliminate these bad habits that affect the future of our country. </p>
-		          </div>
+
+		        	{
+		        		this.state.posts.map( (post) => 
+		        				post.post.category === 'Abuse' ? 
+		        					<div className="col-md-4">
+						            <span className="fa-stack fa-4x">
+						              <i className="fa fa-circle fa-stack-2x text-primary"></i>
+						              <i className="fa fa-child fa-stack-1x fa-inverse"></i>
+						            </span>
+						            <h4 className="service-heading">{post.post.category}</h4>
+						            <p className="text-muted">{post.post.post}</p>
+						          </div>
+
+						        :
+						        	post.post.category === 'UnEmployment' ? 
+						        		<div className="col-md-4">
+							            <span className="fa-stack fa-4x">
+							              <i className="fa fa-circle fa-stack-2x text-primary"></i>
+							              <i className="fa fa-money fa-stack-1x fa-inverse"></i>
+							            </span>
+							            <h4 className="service-heading">{post.post.category}</h4>
+							            <p className="text-muted">{post.post.post}</p>
+							          </div>
+							        :
+
+						        		<div className="col-md-4">
+							            <span className="fa-stack fa-4x">
+							              <i className="fa fa-circle fa-stack-2x text-primary"></i>
+							              <i className="fa fa-amazon fa-stack-1x fa-inverse"></i>
+							            </span>
+							            <h4 className="service-heading">General</h4>
+							            <p className="text-muted">{post.post.post}</p>
+							          </div>
+							     
+
+		        			)
+		        	}
+
 		        </div>
 		      </div>
 		    </section>

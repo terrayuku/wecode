@@ -84,10 +84,10 @@ class Login extends Component {
 		        	</div>
 		        	<div className="row">
 		        		<div className="col-lg-6">
-		        			<a href="/stories:{this.state.result}">Stories</a>
+		        			<a href="/casestudy">Case Studies</a>
 		        		</div>
 		        		<div className="col-lg-6">
-		        			<a href="/speakout:{this.state.result}">SpeakOut</a>
+		        			<a href="/speakout">SpeakOut</a>
 		        		</div>
 		        	</div>
 				</div>

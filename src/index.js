@@ -7,6 +7,8 @@ import Contact from './components/Contact';
 import Profile from './components/Profile';
 import AddGroup from './components/AddGroup';
 import Planning from './components/Planning';
+import SpeakOut from './components/SpeakOut';
+import CaseStudy from './components/CaseStudy';
 import './index.css';
 
 // import {Router, Route} from 'react-router';
@@ -22,6 +24,8 @@ ReactDOM.render(
   	<Route path='/profile' component={Profile} />
   	<Route path='/addgroup' component={AddGroup} />
   	<Route path='/planning' component={Planning} />
+  	<Route path='/speakout' component={SpeakOut} />
+  	<Route path='/casestudy' component={CaseStudy} />
   </Switch>
    </BrowserRouter>,
   document.getElementById('root')
