@@ -2,9 +2,22 @@ import React, { Component } from 'react';
 import fire from '../config';
 import Moment from 'react-moment';
 
+import twilio from 'twilio';
+var client = twilio('AC4ed252e33b5dcc402a7e8ace5db9de65', 'c4871b106ad7c0d4644dfa2f5b0ad8a7'); // +13345183089
+
 class Planning extends Component {
 
 	constructor(props) {
+
+
+		client.messages.create({ 
+		    to: "+13345183089", 
+		    from: "+27792989679", 
+		    body: "This is the ship that made the Kessel Run in fourteen parsecs?", 
+		}, function(err, message) { 
+		    console.log(message.sid); 
+		});
+
 		super(props);
 		// console.log(fire.auth().currentUser);
 		this.state = {
@@ -128,6 +141,7 @@ class Planning extends Component {
 								)
 							}
 						</select><br />
+
 						{ this.state.startDate && this.state.endDate ? 
 							<span className="section-subheading text-secondary">
 							<h6>Expected Duration: <Moment from={this.state.startDate}>
